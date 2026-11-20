@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkBridge - My Profile</title>
+</head>
+<body>
+
+    <h1>My Profile</h1>
+
+    <p>View and update your WorkBridge account information.</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <h2>Account Information</h2>
+
+    <p>
+        <strong>Account Role:</strong>
+        {{ request.user.get_role_display }}
+    </p>
+
+    <form method="POST" action="{% url 'accounts:profile' %}">
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <p>
+        <a href="{% url 'accounts:dashboard' %}">
+            Back to Dashboard
+        </a>
+    </p>
+
+    <form method="POST" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+</body>
+</html>

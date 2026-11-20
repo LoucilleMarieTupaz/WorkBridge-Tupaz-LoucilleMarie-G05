@@ -10,6 +10,11 @@
 
     <p>Welcome, {{ request.user.first_name }}!</p>
     <p>Role: System Administrator</p>
+    <p>
+        <a href="{% url 'accounts:profile' %}">
+            My Profile
+        </a>
+    </p>
 
     <h2>System Overview</h2>
     <p>Manage and oversee WorkBridge user accounts.</p>

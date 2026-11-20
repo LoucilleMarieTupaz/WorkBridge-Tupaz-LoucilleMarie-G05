@@ -75,3 +75,30 @@ class UserProfileForm(forms.ModelForm):
             user.save()
 
         return user
+
+class ProfileUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = [
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+        ]
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].strip()
+
+        existing_email = User.objects.filter(
+            email__iexact=email
+        ).exclude(
+            pk=self.instance.pk
+        )
+
+        if existing_email.exists():
+            raise forms.ValidationError(
+                'This email address is already being used.'
+            )
+
+        return email
