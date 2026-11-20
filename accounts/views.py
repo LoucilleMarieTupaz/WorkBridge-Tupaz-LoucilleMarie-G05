@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 def register_view(request):
     if request.user.is_authenticated:
         return redirect('accounts:login')
-        
+
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
 
@@ -21,11 +21,7 @@ def register_view(request):
                 'Your WorkBridge account has been created successfully!'
             )
 
-            return render(
-                request,
-                'accounts/register_success.html',
-                {'user': user}
-            )
+            return redirect('accounts:dashboard')
 
     else:
         form = RegistrationForm()
@@ -55,10 +51,7 @@ def login_view(request):
                 'You have successfully logged in to WorkBridge!'
             )
 
-            return render(
-                request,
-                'accounts/login_success.html'
-            )
+            return redirect('accounts:dashboard')
 
         else:
             messages.error(
@@ -80,3 +73,47 @@ def logout_view(request):
         return redirect('accounts:login')
 
     return redirect('accounts:login')
+
+@login_required
+def dashboard_view(request):
+
+    user = request.user
+
+    if user.role == 'ADMIN':
+        return redirect('accounts:admin_dashboard')
+
+    elif user.role == 'PROJECT_MANAGER':
+        return redirect('accounts:manager_dashboard')
+
+    else:
+        return redirect('accounts:member_dashboard')
+
+
+@login_required
+def admin_dashboard(request):
+
+    if request.user.role != 'ADMIN':
+        messages.error(request, 'You are not authorized to access this page.')
+        return redirect('accounts:dashboard')
+
+    return render(request, 'accounts/admin_dashboard.html')
+
+
+@login_required
+def manager_dashboard(request):
+
+    if request.user.role != 'PROJECT_MANAGER':
+        messages.error(request, 'You are not authorized to access this page.')
+        return redirect('accounts:dashboard')
+
+    return render(request, 'accounts/manager_dashboard.html')
+
+
+@login_required
+def member_dashboard(request):
+
+    if request.user.role != 'MEMBER':
+        messages.error(request, 'You are not authorized to access this page.')
+        return redirect('accounts:dashboard')
+
+    return render(request, 'accounts/member_dashboard.html')

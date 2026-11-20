@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WorkBridge - Member Dashboard</title>
+</head>
+<body>
+
+    <h1>Project Member Dashboard</h1>
+
+    <p>Welcome, {{ request.user.first_name }}!</p>
+    <p>Role: Project Member</p>
+
+    <h2>My Work</h2>
+    <ul>
+        <li>View Assigned Tasks</li>
+        <li>View Project Updates</li>
+        <li>Review Handover Information</li>
+        <li>View Handover History</li>
+    </ul>
+
+    <form method="POST" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+</body>
+</html>

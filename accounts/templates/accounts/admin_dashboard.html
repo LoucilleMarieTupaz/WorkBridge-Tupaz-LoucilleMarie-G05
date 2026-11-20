@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WorkBridge - Administrator Dashboard</title>
+</head>
+<body>
+
+    <h1>System Administrator Dashboard</h1>
+
+    <p>Welcome, {{ request.user.first_name }}!</p>
+    <p>Role: System Administrator</p>
+
+    <h2>System Overview</h2>
+    <p>Manage and oversee WorkBridge user accounts.</p>
+
+    <form method="POST" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+</body>
+</html>

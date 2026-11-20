@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WorkBridge - Manager Dashboard</title>
+</head>
+<body>
+
+    <h1>Project Manager Dashboard</h1>
+
+    <p>Welcome, {{ request.user.first_name }}!</p>
+    <p>Role: Project Manager</p>
+
+    <h2>Project Management</h2>
+    <ul>
+        <li>Manage Project Information</li>
+        <li>Review Handover Entries</li>
+        <li>Monitor Task Assignments</li>
+        <li>View Project Updates</li>
+    </ul>
+
+    <form method="POST" action="{% url 'accounts:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+</body>
+</html>

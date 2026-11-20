@@ -8,9 +8,9 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
-    # path('dashboard/', views.dashboard_redirect, name='dashboard'),
-    # path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
-    # path('dashboard/manager/', views.manager_dashboard, name='manager_dashboard'),
-    # path('dashboard/member/', views.member_dashboard, name='member_dashboard'),
+    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('dashboard/admin/', views.admin_dashboard, name='admin_dashboard'),
+    path('dashboard/manager/', views.manager_dashboard, name='manager_dashboard'),
+    path('dashboard/member/', views.member_dashboard, name='member_dashboard'),
     # path('profile/', views.profile_view, name='profile'),
 ]
