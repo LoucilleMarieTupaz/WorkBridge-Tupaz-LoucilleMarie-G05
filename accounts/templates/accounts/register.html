@@ -14,7 +14,7 @@
         {% endfor %}
     {% endif %}
 
-    <form method="POST">
+    <form method="POST" action="{% url 'accounts:register' %}">
         {% csrf_token %}
 
         {{ form.as_p }}
@@ -24,7 +24,7 @@
 
     <p>
         Already have an account?
-        Login
+        <a href="{% url 'accounts:login' %}">Login</a>
     </p>
 
 </body>

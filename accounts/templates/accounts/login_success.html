@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkBridge - Login</title>
+</head>
+<body>
+
+    <h1>Welcome Back to WorkBridge</h1>
+    <p>Log in to access your project information.</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <p>
+            <label for="username">Username:</label>
+            <input
+                type="text"
+                name="username"
+                id="username"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="password">Password:</label>
+            <input
+                type="password"
+                name="password"
+                id="password"
+                required
+            >
+        </p>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p>
+        Don't have an account?
+        <a href="{% url 'accounts:register' %}">Register</a>
+    </p>
+
+</body>
+</html>
