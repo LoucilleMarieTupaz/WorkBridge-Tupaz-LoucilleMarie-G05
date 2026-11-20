@@ -65,3 +65,13 @@ class UserProfileForm(forms.ModelForm):
             )
 
         return email
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.role = User.Role.MEMBER
+
+        if commit:
+            user.save()
+
+        return user
