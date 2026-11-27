@@ -1,0 +1,366 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkBridge - Handover Records</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #F4F7FA;
+            color: #334155;
+        }
+
+        .navbar {
+            background: #FFFFFF;
+            padding: 15px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(11, 45, 79, 0.07);
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-links a {
+            color: #0B2D4F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            color: #078F98;
+        }
+
+        .main-content {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 25px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            color: #0B2D4F;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #64748B;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .primary-button {
+            display: inline-block;
+            background: #0B2D4F;
+            color: #FFFFFF;
+            padding: 12px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .primary-button:hover {
+            background: #078F98;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background: #E6F5EE;
+            color: #176B45;
+        }
+
+        .message.error {
+            background: #FDECEC;
+            color: #B42318;
+        }
+
+        .message.warning {
+            background: #FFF4DF;
+            color: #8A5700;
+        }
+
+        .message.info {
+            background: #EAF3FA;
+            color: #245B83;
+        }
+
+        .record-card {
+            background: #FFFFFF;
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid #E2E8F0;
+            border-left: 4px solid #078F98;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 12px rgba(11, 45, 79, 0.04);
+        }
+
+        .record-card h2 {
+            color: #0B2D4F;
+            font-size: 19px;
+            margin-bottom: 15px;
+        }
+
+        .record-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .record-info p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #64748B;
+        }
+
+        .record-info strong {
+            color: #0B2D4F;
+        }
+
+        .progress {
+            display: inline-block;
+            background: #EAF5F5;
+            color: #078F98;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .description {
+            color: #64748B;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .record-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 16px;
+        }
+
+        .record-actions a {
+            color: #078F98;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .record-actions a:hover {
+            text-decoration: underline;
+        }
+
+        .record-actions .delete-link {
+            color: #B42318;
+        }
+
+        .empty-state {
+            background: #FFFFFF;
+            padding: 40px 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #E2E8F0;
+        }
+
+        .empty-state h2 {
+            color: #0B2D4F;
+            font-size: 19px;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #64748B;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #94A3B8;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .logo {
+                width: 115px;
+            }
+
+            .main-content {
+                margin: 25px auto;
+                padding: 0 15px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .record-info {
+                grid-template-columns: 1fr;
+            }
+
+            .record-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <img
+            src="{% static 'images/workbridge-logo.png' %}"
+            alt="WorkBridge Logo"
+            class="logo"
+        >
+
+        <div class="nav-links">
+            <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+            <a href="{% url 'accounts:profile' %}">My Profile</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <div class="page-header">
+            <div>
+                <h1>Handover Records</h1>
+                <p>Manage and review project handover information.</p>
+            </div>
+
+            {% if user.role == 'MEMBER' or user.role == 'PROJECT_MANAGER' %}
+                <a href="{% url 'handovers:create' %}" class="primary-button">
+                    + Create Handover Record
+                </a>
+            {% endif %}
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% for entry in entries %}
+
+            <article class="record-card">
+
+                <h2>{{ entry.title }}</h2>
+
+                <div class="record-info">
+                    <p>
+                        <strong>Progress:</strong><br>
+                        <span class="progress">
+                            {{ entry.get_progress_display }}
+                        </span>
+                    </p>
+
+                    <p>
+                        <strong>Created by:</strong><br>
+                        {{ entry.created_by.username }}
+                    </p>
+
+                    <p>
+                        <strong>Assigned to:</strong><br>
+                        {% if entry.assigned_to %}
+                            {{ entry.assigned_to.username }}
+                        {% else %}
+                            Not assigned
+                        {% endif %}
+                    </p>
+                </div>
+
+                <p class="description">
+                    {{ entry.task_description|truncatewords:30 }}
+                </p>
+
+                <div class="record-actions">
+
+                    <a href="{% url 'handovers:detail' entry.pk %}">
+                        View Details
+                    </a>
+
+                    {% if is_manager_or_admin or entry.created_by_id == user.id %}
+
+                        <a href="{% url 'handovers:update' entry.pk %}">
+                            Edit
+                        </a>
+
+                        <a href="{% url 'handovers:delete' entry.pk %}"
+                           class="delete-link">
+                            Delete
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </article>
+
+        {% empty %}
+
+            <div class="empty-state">
+                <h2>No Handover Records Yet</h2>
+                <p>
+                    There are currently no handover records available
+                    for your account.
+                </p>
+            </div>
+
+        {% endfor %}
+
+    </main>
+
+    <footer class="footer">
+        WorkBridge &copy; 2026. All rights reserved.
+    </footer>
+
+</body>
+</html>

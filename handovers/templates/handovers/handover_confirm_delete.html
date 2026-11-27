@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkBridge - Delete Handover</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #F4F7FA;
+            color: #334155;
+        }
+
+        .navbar {
+            background: #FFFFFF;
+            padding: 15px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(11, 45, 79, 0.07);
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+        }
+
+        .nav-link {
+            color: #0B2D4F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: #078F98;
+        }
+
+        .main-content {
+            flex: 1;
+            width: 100%;
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .confirmation-card {
+            background: #FFFFFF;
+            padding: 35px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 15px rgba(11, 45, 79, 0.05);
+            text-align: center;
+        }
+
+        .warning-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            background: #FDECEC;
+            color: #B42318;
+            border-radius: 50%;
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        .confirmation-card h1 {
+            color: #0B2D4F;
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .confirmation-card p {
+            color: #64748B;
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .record-title {
+            display: block;
+            color: #0B2D4F;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .warning-text {
+            color: #B42318 !important;
+            font-size: 13px !important;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .delete-button,
+        .cancel-button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .delete-button {
+            background: #B42318;
+            color: #FFFFFF;
+        }
+
+        .delete-button:hover {
+            background: #8F1D15;
+        }
+
+        .cancel-button {
+            background: #E2E8F0;
+            color: #0B2D4F;
+        }
+
+        .cancel-button:hover {
+            background: #CBD5E1;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #94A3B8;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .logo {
+                width: 115px;
+            }
+
+            .confirmation-card {
+                padding: 25px 20px;
+            }
+
+            .confirmation-card h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <img
+            src="{% static 'images/workbridge-logo.png' %}"
+            alt="WorkBridge Logo"
+            class="logo"
+        >
+
+        <a href="{% url 'handovers:list' %}" class="nav-link">
+            Handover Records
+        </a>
+    </header>
+
+    <main class="main-content">
+
+        <section class="confirmation-card">
+
+            <div class="warning-icon">!</div>
+
+            <h1>Delete Handover Record?</h1>
+
+            <p>
+                Are you sure you want to delete the following
+                handover record?
+            </p>
+
+            <span class="record-title">
+                {{ entry.title }}
+            </span>
+
+            <p class="warning-text">
+                This action cannot be undone. The selected record
+                will be permanently removed.
+            </p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <div class="button-group">
+
+                    <button type="submit" class="delete-button">
+                        Confirm Delete
+                    </button>
+
+                    <a href="{% url 'handovers:detail' entry.pk %}"
+                       class="cancel-button">
+                        Cancel
+                    </a>
+
+                </div>
+            </form>
+
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        WorkBridge &copy; 2026. All rights reserved.
+    </footer>
+
+</body>
+</html>

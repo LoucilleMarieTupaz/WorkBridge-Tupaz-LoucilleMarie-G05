@@ -1,0 +1,349 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkBridge - Handover Details</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #F4F7FA;
+            color: #334155;
+        }
+
+        .navbar {
+            background: #FFFFFF;
+            padding: 15px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(11, 45, 79, 0.07);
+        }
+
+        .logo {
+            width: 80px;
+            height: auto;
+        }
+
+        .nav-link {
+            color: #0B2D4F;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .nav-link:hover {
+            color: #078F98;
+        }
+
+        .main-content {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .detail-card {
+            background: #FFFFFF;
+            padding: 32px;
+            border-radius: 12px;
+            border: 1px solid #E2E8F0;
+            box-shadow: 0 4px 15px rgba(11, 45, 79, 0.05);
+        }
+
+        .detail-header {
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .detail-header h1 {
+            color: #0B2D4F;
+            font-size: 27px;
+            margin-bottom: 12px;
+            overflow-wrap: anywhere;
+        }
+
+        .progress {
+            display: inline-block;
+            background: #EAF5F5;
+            color: #078F98;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background: #E6F5EE;
+            color: #176B45;
+        }
+
+        .message.error {
+            background: #FDECEC;
+            color: #B42318;
+        }
+
+        .message.warning {
+            background: #FFF4DF;
+            color: #8A5700;
+        }
+
+        .message.info {
+            background: #EAF3FA;
+            color: #245B83;
+        }
+
+        .detail-section {
+            margin-bottom: 25px;
+        }
+
+        .detail-section h2 {
+            color: #0B2D4F;
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .detail-section p {
+            color: #64748B;
+            font-size: 14px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+            white-space: pre-line;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            background: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .info-item strong {
+            display: block;
+            color: #0B2D4F;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .info-item span {
+            color: #64748B;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 22px;
+        }
+
+        .action-buttons a {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .edit-button {
+            background: #0B2D4F;
+            color: #FFFFFF;
+        }
+
+        .edit-button:hover {
+            background: #078F98;
+        }
+
+        .delete-button {
+            background: #FDECEC;
+            color: #B42318;
+        }
+
+        .delete-button:hover {
+            background: #FBD5D5;
+        }
+
+        .back-button {
+            background: #E2E8F0;
+            color: #0B2D4F;
+        }
+
+        .back-button:hover {
+            background: #CBD5E1;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #94A3B8;
+            font-size: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .logo {
+                width: 115px;
+            }
+
+            .main-content {
+                margin: 25px auto;
+            }
+
+            .detail-card {
+                padding: 23px;
+            }
+
+            .detail-header h1 {
+                font-size: 23px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <img
+            src="{% static 'images/workbridge-logo.png' %}"
+            alt="WorkBridge Logo"
+            class="logo"
+        >
+
+        <a href="{% url 'handovers:list' %}" class="nav-link">
+            Handover Records
+        </a>
+    </header>
+
+    <main class="main-content">
+
+        <article class="detail-card">
+
+            <div class="detail-header">
+                <h1>{{ entry.title }}</h1>
+                <span class="progress">
+                    {{ entry.get_progress_display }}
+                </span>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <section class="detail-section">
+                <h2>Task Description</h2>
+                <p>{{ entry.task_description }}</p>
+            </section>
+
+            <section class="detail-section">
+                <h2>Instructions</h2>
+                <p>{{ entry.instructions }}</p>
+            </section>
+
+            <section class="detail-section">
+                <h2>Pending Work</h2>
+                <p>
+                    {% if entry.pending_work %}
+                        {{ entry.pending_work }}
+                    {% else %}
+                        None
+                    {% endif %}
+                </p>
+            </section>
+
+            <div class="info-grid">
+
+                <div class="info-item">
+                    <strong>Created By</strong>
+                    <span>{{ entry.created_by.username }}</span>
+                </div>
+
+                <div class="info-item">
+                    <strong>Assigned To</strong>
+                    <span>
+                        {% if entry.assigned_to %}
+                            {{ entry.assigned_to.username }}
+                        {% else %}
+                            Not assigned
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="info-item">
+                    <strong>Date Created</strong>
+                    <span>{{ entry.created_at }}</span>
+                </div>
+
+                <div class="info-item">
+                    <strong>Last Updated</strong>
+                    <span>{{ entry.updated_at }}</span>
+                </div>
+
+            </div>
+
+            <div class="action-buttons">
+
+                {% if can_edit %}
+
+                    <a href="{% url 'handovers:update' entry.pk %}"
+                       class="edit-button">
+                        Edit Record
+                    </a>
+
+                    <a href="{% url 'handovers:delete' entry.pk %}"
+                       class="delete-button">
+                        Delete Record
+                    </a>
+
+                {% endif %}
+
+                <a href="{% url 'handovers:list' %}"
+                   class="back-button">
+                    Back to Records
+                </a>
+
+            </div>
+
+        </article>
+
+    </main>
+
+    <footer class="footer">
+        WorkBridge &copy; 2026. All rights reserved.
+    </footer>
+
+</body>
+</html>
