@@ -1,51 +1,227 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorkBridge - Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #F4F7FA;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: #FFFFFF;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(11, 45, 79, 0.10);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .logo-container img {
+            width: 140px;
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .login-header h1 {
+            color: #0B2D4F;
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .login-header p {
+            color: #64748B;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .message.success {
+            background: #E6F5EE;
+            color: #176B45;
+        }
+
+        .message.error {
+            background: #FDECEC;
+            color: #B42318;
+        }
+
+        .message.warning {
+            background: #FFF4DF;
+            color: #8A5700;
+        }
+
+        .message.info {
+            background: #EAF3FA;
+            color: #245B83;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #0B2D4F;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #CBD5E1;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #078F98;
+            box-shadow: 0 0 0 2px rgba(7, 143, 152, 0.12);
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 13px;
+            background: #0B2D4F;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .login-button:hover {
+            background: #078F98;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 22px;
+            color: #64748B;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #078F98;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #94A3B8;
+            font-size: 12px;
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Welcome Back to WorkBridge</h1>
-    <p>Log in to access your project information.</p>
+    <div class="login-container">
 
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
+        <div class="logo-container">
+            <img src="{% static 'images/workbridge-logo.png' %}"
+                 alt="WorkBridge Logo">
+        </div>
 
-    <form method="POST">
-        {% csrf_token %}
+        <div class="login-header">
+            <h1>Welcome Back</h1>
+            <p>Log in to access your project information.</p>
+        </div>
 
-        <p>
-            <label for="username">Username:</label>
-            <input
-                type="text"
-                name="username"
-                id="username"
-                required
-            >
-        </p>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
 
-        <p>
-            <label for="password">Password:</label>
-            <input
-                type="password"
-                name="password"
-                id="password"
-                required
-            >
-        </p>
+        <form method="POST">
+            {% csrf_token %}
 
-        <button type="submit">Login</button>
-    </form>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required
+                >
+            </div>
 
-    <p>
-        Don't have an account?
-        <a href="{% url 'accounts:register' %}">Register</a>
-    </p>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="login-button">
+                Log In
+            </button>
+        </form>
+
+        <div class="register-link">
+            Don't have an account?
+            <a href="{% url 'accounts:register' %}">Create an account</a>
+        </div>
+
+        <div class="footer">
+            WorkBridge &copy; 2026. All rights reserved.
+        </div>
+
+    </div>
 
 </body>
 </html>

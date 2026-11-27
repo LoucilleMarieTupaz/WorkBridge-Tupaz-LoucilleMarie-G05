@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect('accounts:login')
+        return redirect('accounts:dashboard')
 
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -33,6 +33,8 @@ def register_view(request):
     )
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('accounts:dashboard')
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()
         password = request.POST.get('password', '')
@@ -145,3 +147,9 @@ def profile_view(request):
         'accounts/profile.html',
         {'form': form}
     )
+
+def home_view(request):
+    if request.user.is_authenticated:
+        return redirect('accounts:dashboard')
+
+    return redirect('accounts:login')
